@@ -28,7 +28,7 @@
         },
         "_artifactsLocation": {
             "type": "string",
-            "defaultValue": "https://raw.githubusercontent.com/Kuvance/lms-arm-files/main",
+            "defaultValue": "https://raw.githubusercontent.com/Kuvance/lms-arm-files/main/",
             "metadata": {
                 "description": "Base URI where templates are stored."
             }
