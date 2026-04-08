@@ -1,0 +1,257 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "managedEnvironments_managedEnvironment_eventresource_9067_externalid": {
+            "defaultValue": "/subscriptions/af4530b3-eebc-4a13-8cbd-217ead2b8131/resourceGroups/event-resource/providers/Microsoft.App/managedEnvironments/managedEnvironment-eventresource-9067",
+            "type": "String"
+        },
+        "containerapps_lms_app_name": {
+            "defaultValue": "lms-app",
+            "type": "String"
+        },
+        "containerapps_lms_main_app_name": {
+            "defaultValue": "lms-main-app",
+            "type": "String"
+        },
+        "containerapps_lms_landing_app_name": {
+            "defaultValue": "lms-landing-app",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.App/containerapps",
+            "apiVersion": "2025-10-02-preview",
+            "name": "[parameters('containerapps_lms_app_name')]",
+            "location": "West US 2",
+            "kind": "containerapps",
+            "identity": {
+                "type": "None"
+            },
+            "properties": {
+                "managedEnvironmentId": "[parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid')]",
+                "environmentId": "[parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid')]",
+                "workloadProfileName": "Consumption",
+                "configuration": {
+                    "secrets": [
+                        {
+                            "name": "reg-pswd-2d7c47f7-b465"
+                        }
+                    ],
+                    "activeRevisionsMode": "Single",
+                    "ingress": {
+                        "external": true,
+                        "targetPort": 8000,
+                        "exposedPort": 0,
+                        "transport": "Auto",
+                        "traffic": [
+                            {
+                                "weight": 100,
+                                "latestRevision": true
+                            }
+                        ],
+                        "allowInsecure": false,
+                        "clientCertificateMode": "Ignore",
+                        "stickySessions": {
+                            "affinity": "none"
+                        }
+                    },
+                    "registries": [
+                        {
+                            "server": "lmsrepository.azurecr.io",
+                            "username": "lmsrepository",
+                            "passwordSecretRef": "reg-pswd-2d7c47f7-b465"
+                        }
+                    ],
+                    "identitySettings": [],
+                    "maxInactiveRevisions": 100
+                },
+                "template": {
+                    "containers": [
+                        {
+                            "image": "lmsrepository.azurecr.io/coursebackend:latest",
+                            "imageType": "ContainerImage",
+                            "name": "[parameters('containerapps_lms_app_name')]",
+                            "resources": {
+                                "cpu": 0.5,
+                                "memory": "1Gi"
+                            }
+                        }
+                    ],
+                    "scale": {
+                        "minReplicas": 0,
+                        "maxReplicas": 10,
+                        "cooldownPeriod": 300,
+                        "pollingInterval": 30
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.App/containerapps",
+            "apiVersion": "2025-10-02-preview",
+            "name": "[parameters('containerapps_lms_landing_app_name')]",
+            "location": "West US 2",
+            "kind": "containerapps",
+            "identity": {
+                "type": "None"
+            },
+            "properties": {
+                "managedEnvironmentId": "[parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid')]",
+                "environmentId": "[parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid')]",
+                "workloadProfileName": "Consumption",
+                "configuration": {
+                    "secrets": [
+                        {
+                            "name": "reg-pswd-b91e8334-9227"
+                        }
+                    ],
+                    "activeRevisionsMode": "Single",
+                    "ingress": {
+                        "external": true,
+                        "targetPort": 3000,
+                        "exposedPort": 0,
+                        "transport": "Auto",
+                        "traffic": [
+                            {
+                                "weight": 100,
+                                "latestRevision": true
+                            }
+                        ],
+                        "customDomains": [
+                            {
+                                "name": "burgeon.space",
+                                "certificateId": "[concat(parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid'), '/certificates/librogram')]",
+                                "bindingType": "SniEnabled"
+                            },
+                            {
+                                "name": "librogram.com",
+                                "certificateId": "[concat(parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid'), '/managedCertificates/librogram.com-managede-251218153437')]",
+                                "bindingType": "SniEnabled"
+                            }
+                        ],
+                        "allowInsecure": false,
+                        "stickySessions": {
+                            "affinity": "none"
+                        }
+                    },
+                    "registries": [
+                        {
+                            "server": "lmsrepository.azurecr.io",
+                            "username": "lmsrepository",
+                            "passwordSecretRef": "reg-pswd-b91e8334-9227"
+                        }
+                    ],
+                    "identitySettings": [],
+                    "maxInactiveRevisions": 100
+                },
+                "template": {
+                    "containers": [
+                        {
+                            "image": "lmsrepository.azurecr.io/lms-landing-page:latest",
+                            "imageType": "ContainerImage",
+                            "name": "[parameters('containerapps_lms_landing_app_name')]",
+                            "resources": {
+                                "cpu": 0.5,
+                                "memory": "1Gi"
+                            }
+                        }
+                    ],
+                    "scale": {
+                        "minReplicas": 0,
+                        "maxReplicas": 10,
+                        "cooldownPeriod": 300,
+                        "pollingInterval": 30
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.App/containerapps",
+            "apiVersion": "2025-10-02-preview",
+            "name": "[parameters('containerapps_lms_main_app_name')]",
+            "location": "West US 2",
+            "kind": "containerapps",
+            "identity": {
+                "type": "None"
+            },
+            "properties": {
+                "managedEnvironmentId": "[parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid')]",
+                "environmentId": "[parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid')]",
+                "workloadProfileName": "Consumption",
+                "configuration": {
+                    "secrets": [
+                        {
+                            "name": "reg-pswd-56841184-973e"
+                        }
+                    ],
+                    "activeRevisionsMode": "Single",
+                    "ingress": {
+                        "external": true,
+                        "targetPort": 3002,
+                        "exposedPort": 0,
+                        "transport": "Auto",
+                        "traffic": [
+                            {
+                                "weight": 100,
+                                "latestRevision": true
+                            }
+                        ],
+                        "customDomains": [
+                            {
+                                "name": "*.librogram.com",
+                                "certificateId": "[concat(parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid'), '/certificates/librogram')]",
+                                "bindingType": "SniEnabled"
+                            },
+                            {
+                                "name": "main.burgeon.space",
+                                "certificateId": "[concat(parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid'), '/managedCertificates/main.burgeon.space-managede-260225202018')]",
+                                "bindingType": "SniEnabled"
+                            },
+                            {
+                                "name": "main.librogram.com",
+                                "certificateId": "[concat(parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid'), '/managedCertificates/main.librogram.com-managede-251220114600')]",
+                                "bindingType": "SniEnabled"
+                            }
+                        ],
+                        "allowInsecure": false,
+                        "clientCertificateMode": "Accept",
+                        "stickySessions": {
+                            "affinity": "none"
+                        }
+                    },
+                    "registries": [
+                        {
+                            "server": "lmsrepository.azurecr.io",
+                            "username": "lmsrepository",
+                            "passwordSecretRef": "reg-pswd-56841184-973e"
+                        }
+                    ],
+                    "identitySettings": [],
+                    "maxInactiveRevisions": 100
+                },
+                "template": {
+                    "containers": [
+                        {
+                            "image": "lmsrepository.azurecr.io/lms-main-page:latest",
+                            "imageType": "ContainerImage",
+                            "name": "[parameters('containerapps_lms_main_app_name')]",
+                            "resources": {
+                                "cpu": 0.5,
+                                "memory": "1Gi"
+                            }
+                        }
+                    ],
+                    "scale": {
+                        "minReplicas": 0,
+                        "maxReplicas": 10,
+                        "cooldownPeriod": 300,
+                        "pollingInterval": 30
+                    }
+                }
+            }
+        }
+    ]
+}
