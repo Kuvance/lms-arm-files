@@ -39,6 +39,12 @@
         "managedEnvironment_name": {
             "type": "String",
             "defaultValue": "lms-managed-environment"
+        },
+        "containerRegistryPassword": {
+            "type": "secureString",
+            "metadata": {
+                "description": "Password for the Azure Container Registry."
+            }
         }
     },
     "variables": {},
@@ -115,6 +121,9 @@
                     },
                     "managedEnvironment_name": {
                         "value": "[parameters('managedEnvironment_name')]"
+                    },
+                    "containerRegistryPassword": {
+                        "value": "[parameters('containerRegistryPassword')]"
                     }
                 }
             }

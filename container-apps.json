@@ -21,6 +21,12 @@
         "managedEnvironment_name": {
             "type": "String",
             "defaultValue": "lms-managed-environment"
+        },
+        "containerRegistryPassword": {
+            "type": "secureString",
+            "metadata": {
+                "description": "Password for the Azure Container Registry (lmsrepository). Get it from Azure Portal > Container Registry > Access keys."
+            }
         }
     },
     "variables": {},
@@ -59,7 +65,7 @@
                     "secrets": [
                         {
                             "name": "reg-pswd-2d7c47f7-b465",
-                            "value": "[listCredentials(resourceId('Microsoft.ContainerRegistry/registries', parameters('registries_lmsrepository_name')), '2025-11-01').passwords[0].value]"
+                            "value": "[parameters('containerRegistryPassword')]"
                         }
                     ],
                     "activeRevisionsMode": "Single",
@@ -131,7 +137,7 @@
                     "secrets": [
                         {
                             "name": "reg-pswd-b91e8334-9227",
-                            "value": "[listCredentials(resourceId('Microsoft.ContainerRegistry/registries', parameters('registries_lmsrepository_name')), '2025-11-01').passwords[0].value]"
+                            "value": "[parameters('containerRegistryPassword')]"
                         }
                     ],
                     "activeRevisionsMode": "Single",
@@ -202,7 +208,7 @@
                     "secrets": [
                         {
                             "name": "reg-pswd-56841184-973e",
-                            "value": "[listCredentials(resourceId('Microsoft.ContainerRegistry/registries', parameters('registries_lmsrepository_name')), '2025-11-01').passwords[0].value]"
+                            "value": "[parameters('containerRegistryPassword')]"
                         }
                     ],
                     "activeRevisionsMode": "Single",
