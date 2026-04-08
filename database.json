@@ -1103,54 +1103,6 @@
         {
             "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases",
             "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/azure_maintenance')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', parameters('flexibleServers_learnmanagement_name'))]"
-            ],
-            "properties": {
-                "charset": "UTF8",
-                "collation": "en_US.utf8"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/azure_maintenance')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', parameters('flexibleServers_lms_name'))]"
-            ],
-            "properties": {
-                "charset": "UTF8",
-                "collation": "en_US.utf8"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/azure_sys')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', parameters('flexibleServers_learnmanagement_name'))]"
-            ],
-            "properties": {
-                "charset": "UTF8",
-                "collation": "en_US.utf8"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/azure_sys')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', parameters('flexibleServers_lms_name'))]"
-            ],
-            "properties": {
-                "charset": "UTF8",
-                "collation": "en_US.utf8"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases",
-            "apiVersion": "2025-08-01",
             "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/postgres')]",
             "dependsOn": [
                 "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', parameters('flexibleServers_learnmanagement_name'))]"
