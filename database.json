@@ -9,6 +9,9 @@
         "flexibleServers_learnmanagement_name": {
             "defaultValue": "learnmanagement",
             "type": "String"
+        },
+        "administratorLoginPassword": {
+            "type": "secureString"
         }
     },
     "variables": {},
@@ -59,7 +62,8 @@
                     "startHour": 0,
                     "startMinute": 0
                 },
-                "replicationRole": "Primary"
+                "replicationRole": "Primary",
+                "administratorLoginPassword": "[parameters('administratorLoginPassword')]"
             }
         },
         {
@@ -108,7 +112,8 @@
                     "startHour": 0,
                     "startMinute": 0
                 },
-                "replicationRole": "Primary"
+                "replicationRole": "Primary",
+                "administratorLoginPassword": "[parameters('administratorLoginPassword')]"
             }
         },
         {

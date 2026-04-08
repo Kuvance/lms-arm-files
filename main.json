@@ -32,6 +32,9 @@
             "metadata": {
                 "description": "Base URI where templates are stored."
             }
+        },
+        "administratorLoginPassword": {
+            "type": "secureString"
         }
     },
     "variables": {},
@@ -73,6 +76,9 @@
                     },
                     "flexibleServers_learnmanagement_name": {
                         "value": "[parameters('flexibleServers_learnmanagement_name')]"
+                    },
+                    "administratorLoginPassword": {
+                        "value": "[parameters('administratorLoginPassword')]"
                     }
                 }
             }
