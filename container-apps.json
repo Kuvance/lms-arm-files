@@ -34,9 +34,6 @@
                 "zoneRedundant": false,
                 "kedaConfiguration": {},
                 "daprConfiguration": {},
-                "appLogsConfiguration": {
-                    "destination": "none"
-                },
                 "workloadProfiles": [
                     {
                         "workloadProfileType": "Consumption",
