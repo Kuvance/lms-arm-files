@@ -45,6 +45,13 @@
             "metadata": {
                 "description": "Password for the Azure Container Registry."
             }
+        },
+        "serverNameSuffix": {
+            "type": "String",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Optional suffix to make server names globally unique."
+            }
         }
     },
     "variables": {},
@@ -89,6 +96,9 @@
                     },
                     "administratorLoginPassword": {
                         "value": "[parameters('administratorLoginPassword')]"
+                    },
+                    "serverNameSuffix": {
+                        "value": "[parameters('serverNameSuffix')]"
                     }
                 }
             }
