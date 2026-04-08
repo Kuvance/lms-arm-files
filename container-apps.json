@@ -17,6 +17,10 @@
         "containerapps_lms_landing_app_name": {
             "defaultValue": "lms-landing-app",
             "type": "String"
+        },
+        "registries_lmsrepository_name": {
+            "type": "String",
+            "defaultValue": "lmsrepository"
         }
     },
     "variables": {},
@@ -37,7 +41,8 @@
                 "configuration": {
                     "secrets": [
                         {
-                            "name": "reg-pswd-2d7c47f7-b465"
+                            "name": "reg-pswd-2d7c47f7-b465",
+                            "value": "[listCredentials(resourceId('Microsoft.ContainerRegistry/registries', parameters('registries_lmsrepository_name')), '2025-11-01').passwords[0].value]"
                         }
                     ],
                     "activeRevisionsMode": "Single",
@@ -105,7 +110,8 @@
                 "configuration": {
                     "secrets": [
                         {
-                            "name": "reg-pswd-b91e8334-9227"
+                            "name": "reg-pswd-b91e8334-9227",
+                            "value": "[listCredentials(resourceId('Microsoft.ContainerRegistry/registries', parameters('registries_lmsrepository_name')), '2025-11-01').passwords[0].value]"
                         }
                     ],
                     "activeRevisionsMode": "Single",
@@ -184,7 +190,8 @@
                 "configuration": {
                     "secrets": [
                         {
-                            "name": "reg-pswd-56841184-973e"
+                            "name": "reg-pswd-56841184-973e",
+                            "value": "[listCredentials(resourceId('Microsoft.ContainerRegistry/registries', parameters('registries_lmsrepository_name')), '2025-11-01').passwords[0].value]"
                         }
                     ],
                     "activeRevisionsMode": "Single",

@@ -99,6 +99,9 @@
                     },
                     "containerapps_lms_landing_app_name": {
                         "value": "[parameters('containerapps_lms_landing_app_name')]"
+                    },
+                    "registries_lmsrepository_name": {
+                        "value": "[parameters('registries_lmsrepository_name')]"
                     }
                 }
             }
