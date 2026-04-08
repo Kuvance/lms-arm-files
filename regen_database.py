@@ -34,6 +34,24 @@ DB_TYPES = {
     'Microsoft.DBforPostgreSQL/flexibleServers/advancedThreatProtectionSettings',
 }
 
+def get_param_key(name_expr):
+    if 'flexibleServers_learnmanagement_name' in name_expr:
+        return 'flexibleServers_learnmanagement_name'
+    if 'flexibleServers_lms_name' in name_expr:
+        return 'flexibleServers_lms_name'
+    return None
+
+def get_child_part(name_expr):
+    """
+    Extract child resource name from original ARM concat expression.
+    Handles: [concat(parameters('server'), '/child_name')]
+    The fix: use '/([^']+)' without requiring ']' immediately after quote.
+    """
+    m = re.search(r"'/([^']+)'", name_expr)
+    if m:
+        return m.group(1)
+    return None
+
 # Read original source of truth
 with open('template.json', 'r') as f:
     original = json.load(f)
@@ -52,27 +70,9 @@ params = {
     'serverNameSuffix': {
         'type': 'String',
         'defaultValue': '',
-        'metadata': {'description': "Optional suffix to make server names globally unique (e.g. '-v2')"}
+        'metadata': {'description': "Optional suffix for globally unique server names (e.g. '-v2')"}
     }
 }
-
-def get_param_key(name_expr):
-    """Figure out which server parameter this resource belongs to."""
-    if 'flexibleServers_learnmanagement_name' in name_expr:
-        return 'flexibleServers_learnmanagement_name'
-    if 'flexibleServers_lms_name' in name_expr:
-        return 'flexibleServers_lms_name'
-    return None
-
-def get_child_part(name_expr):
-    """Extract the child resource name part after '/' from original concat expression.
-    These are ORIGINAL names like: [concat(parameters('lms'), '/some_child')]
-    """
-    # Match pattern: '/<child_name>')] at end
-    m = re.search(r"'/([^']+)'\]", name_expr)
-    if m:
-        return m.group(1)
-    return None
 
 db_resources = []
 
@@ -91,33 +91,36 @@ for res in all_resources:
     if t == 'Microsoft.DBforPostgreSQL/flexibleServers/databases':
         child = get_child_part(name)
         if child and any(sd in child for sd in SYSTEM_DBS):
+            print(f"  Skipping system DB: {child}")
             continue
 
-    # Skip non-whitelisted configs (only skip system-default ones)
+    # Apply whitelist to configurations
     if t == 'Microsoft.DBforPostgreSQL/flexibleServers/configurations':
         source = res.get('properties', {}).get('source', '')
         if source == 'system-default':
             continue
         child = get_child_part(name)
-        if child and child not in SAFE_CONFIGS:
+        if child is None:
+            # Can't parse name - skip to be safe
+            print(f"  Skipping unparseable config: {name}")
+            continue
+        if child not in SAFE_CONFIGS:
             continue
 
-    # Build a clean copy of this resource
-    r = dict(res)
-
+    # Build a clean copy
+    r = json.loads(json.dumps(res))  # deep copy
     param_key = get_param_key(name)
 
     if t == 'Microsoft.DBforPostgreSQL/flexibleServers':
         r['name'] = f"[concat(parameters('{param_key}'), parameters('serverNameSuffix'))]"
-        # Inject admin password
         r['properties']['administratorLoginPassword'] = "[parameters('administratorLoginPassword')]"
 
     elif param_key:
         child = get_child_part(name)
         if child:
+            # Child name uses suffix to match parent server
             r['name'] = f"[concat(parameters('{param_key}'), parameters('serverNameSuffix'), '/{child}')]"
-        # Fix dependsOn to reference new server name pattern
-        if 'dependsOn' in r:
+            # Update dependsOn
             r['dependsOn'] = [
                 f"[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('{param_key}'), parameters('serverNameSuffix')))]"
             ]
@@ -135,18 +138,26 @@ db_template = {
 with open('database.json', 'w') as f:
     json.dump(db_template, f, indent=4)
 
-print(f"Regenerated database.json with {len(db_resources)} resources")
+print(f"\nFinal database.json: {len(db_resources)} resources")
 
-# Sanity check: no nested bracket expressions
+# Sanity check: ensure suffix is in all child names
 content = open('database.json').read()
-if "'/[" in content or "\"[concat" in content.replace('"[concat(parameters', ''):
-    print("WARNING: Possible nested expression detected - verify manually")
-else:
-    print("Expression sanity check passed OK")
+problems = []
+for r in db_resources:
+    if r['type'] != 'Microsoft.DBforPostgreSQL/flexibleServers':
+        if 'serverNameSuffix' not in r['name']:
+            problems.append(r['name'])
 
-# Count by type
+if problems:
+    print("PROBLEMS - these names are missing serverNameSuffix:")
+    for p in problems:
+        print(f"  {p}")
+else:
+    print("All child resource names include serverNameSuffix - OK")
+
+# Type summary
 types = {}
 for r in db_resources:
     types[r['type']] = types.get(r['type'], 0) + 1
 for k, v in sorted(types.items()):
-    print(f"  {v}x {k}")
+    print(f"  {v}x {k.split('/')[-1]}")

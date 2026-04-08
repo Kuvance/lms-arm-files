@@ -20,7 +20,7 @@
             "type": "String",
             "defaultValue": "",
             "metadata": {
-                "description": "Optional suffix to make server names globally unique (e.g. '-v2')"
+                "description": "Optional suffix for globally unique server names (e.g. '-v2')"
             }
         }
     },
@@ -129,7 +129,7 @@
         {
             "type": "Microsoft.DBforPostgreSQL/flexibleServers/administrators",
             "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/163f225a-d303-424b-8591-94a7bf7276e9')]",
+            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix'), '/163f225a-d303-424b-8591-94a7bf7276e9')]",
             "dependsOn": [
                 "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
             ],
@@ -142,7 +142,7 @@
         {
             "type": "Microsoft.DBforPostgreSQL/flexibleServers/administrators",
             "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/163f225a-d303-424b-8591-94a7bf7276e9')]",
+            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/163f225a-d303-424b-8591-94a7bf7276e9')]",
             "dependsOn": [
                 "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
             ],
@@ -155,7 +155,7 @@
         {
             "type": "Microsoft.DBforPostgreSQL/flexibleServers/advancedThreatProtectionSettings",
             "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/Default')]",
+            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix'), '/Default')]",
             "dependsOn": [
                 "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
             ],
@@ -166,7 +166,7 @@
         {
             "type": "Microsoft.DBforPostgreSQL/flexibleServers/advancedThreatProtectionSettings",
             "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/Default')]",
+            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/Default')]",
             "dependsOn": [
                 "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
             ],
@@ -177,655 +177,7 @@
         {
             "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
             "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/archive_command')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "BlobLogUpload.sh %f %p",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/archive_command')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "BlobLogUpload.sh %f %p",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/archive_mode')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "always",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/archive_mode')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "always",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/authentication_timeout')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "30",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/authentication_timeout')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "30",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/commit_timestamp_buffers')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "64",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/commit_timestamp_buffers')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "64",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/config_file')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/datadrive/pg/data/postgresql.conf",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/config_file')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/datadrive/pg/data/postgresql.conf",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/cron.host')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/tmp",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/cron.host')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/tmp",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/cron.log_min_messages')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "warning",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/cron.log_min_messages')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "warning",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/data_checksums')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "on",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/data_checksums')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "on",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/data_directory')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/datadrive/pg/data",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/data_directory')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/datadrive/pg/data",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/data_directory_mode')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "0700",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/data_directory_mode')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "0700",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/default_toast_compression')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "lz4",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/default_toast_compression')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "lz4",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/hba_file')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/datadrive/pg/data/pg_hba.conf",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/hba_file')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/datadrive/pg/data/pg_hba.conf",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/huge_pages_status')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "off",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/huge_pages_status')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "off",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/ident_file')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/datadrive/pg/data/pg_ident.conf",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/ident_file')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/datadrive/pg/data/pg_ident.conf",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/lc_messages')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "en_US.utf8",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/lc_messages')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "en_US.utf8",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/lc_time')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "en_US.utf8",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/lc_time')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "en_US.utf8",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/listen_addresses')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "*",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/listen_addresses')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "*",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/log_file_mode')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "0600",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/log_file_mode')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "0600",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/log_rotation_age')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "60",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/log_rotation_age')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "60",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/log_rotation_size')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "102400",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/log_rotation_size')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "102400",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/log_timezone')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "UTC",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/log_timezone')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "UTC",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/max_stack_depth')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "2048",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/max_stack_depth')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "2048",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/server_encoding')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "UTF8",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/server_encoding')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "UTF8",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/server_version')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "17.7",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/server_version')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "17.7",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/server_version_num')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "170007",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/server_version_num')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "170007",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/shared_memory_size')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "322",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/shared_memory_size')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "322",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/shared_memory_size_in_huge_pages')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "161",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/shared_memory_size_in_huge_pages')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "161",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/shared_preload_libraries')]",
+            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix'), '/shared_preload_libraries')]",
             "dependsOn": [
                 "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
             ],
@@ -837,7 +189,7 @@
         {
             "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
             "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/shared_preload_libraries')]",
+            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/shared_preload_libraries')]",
             "dependsOn": [
                 "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
             ],
@@ -847,273 +199,9 @@
             }
         },
         {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/ssl')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "on",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/ssl')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "on",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/ssl_ca_file')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/datadrive/certs/ca.pem",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/ssl_ca_file')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/datadrive/certs/ca.pem",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/ssl_cert_file')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/datadrive/certs/cert.pem",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/ssl_cert_file')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/datadrive/certs/cert.pem",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/ssl_ciphers')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/ssl_ciphers')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/ssl_key_file')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/datadrive/certs/key.pem",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/ssl_key_file')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/datadrive/certs/key.pem",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/subtransaction_buffers')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "64",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/subtransaction_buffers')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "64",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/timezone_abbreviations')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "Default",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/timezone_abbreviations')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "Default",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/transaction_buffers')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "64",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/transaction_buffers')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "64",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/unix_socket_directories')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/tmp,/tmp/tuning_sockets",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/unix_socket_directories')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "/tmp,/tmp/tuning_sockets",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/unix_socket_permissions')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "0777",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/unix_socket_permissions')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "0777",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/wal_keep_size')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "400",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/wal_keep_size')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "400",
-                "source": "user-override"
-            }
-        },
-        {
             "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases",
             "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/azure_maintenance')]",
+            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix'), '/postgres')]",
             "dependsOn": [
                 "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
             ],
@@ -1125,7 +213,7 @@
         {
             "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases",
             "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/azure_maintenance')]",
+            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/postgres')]",
             "dependsOn": [
                 "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
             ],
@@ -1137,55 +225,7 @@
         {
             "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases",
             "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/azure_sys')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "charset": "UTF8",
-                "collation": "en_US.utf8"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/azure_sys')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "charset": "UTF8",
-                "collation": "en_US.utf8"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/postgres')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "charset": "UTF8",
-                "collation": "en_US.utf8"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/postgres')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "charset": "UTF8",
-                "collation": "en_US.utf8"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/test_postgres')]",
+            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/test_postgres')]",
             "dependsOn": [
                 "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
             ],
@@ -1197,7 +237,7 @@
         {
             "type": "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules",
             "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/AllowAll_2025-12-12_9-54-28')]",
+            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix'), '/AllowAll_2025-12-12_9-54-28')]",
             "dependsOn": [
                 "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
             ],
@@ -1209,7 +249,7 @@
         {
             "type": "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules",
             "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/AllowAll_2025-12-19_19-42-6')]",
+            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/AllowAll_2025-12-19_19-42-6')]",
             "dependsOn": [
                 "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
             ],
@@ -1221,7 +261,7 @@
         {
             "type": "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules",
             "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), '/AllowAllAzureServicesAndResourcesWithinAzureIps_2025-12-12_9-56-32')]",
+            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix'), '/AllowAllAzureServicesAndResourcesWithinAzureIps_2025-12-12_9-56-32')]",
             "dependsOn": [
                 "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
             ],
@@ -1233,7 +273,7 @@
         {
             "type": "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules",
             "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), '/AllowAllAzureServicesAndResourcesWithinAzureIps_2025-12-19_19-42-24')]",
+            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/AllowAllAzureServicesAndResourcesWithinAzureIps_2025-12-19_19-42-24')]",
             "dependsOn": [
                 "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
             ],
