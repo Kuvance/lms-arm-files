@@ -2,10 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "managedEnvironments_managedEnvironment_eventresource_9067_externalid": {
-            "defaultValue": "/subscriptions/af4530b3-eebc-4a13-8cbd-217ead2b8131/resourceGroups/event-resource/providers/Microsoft.App/managedEnvironments/managedEnvironment-eventresource-9067",
-            "type": "String"
-        },
         "containerapps_lms_app_name": {
             "defaultValue": "lms-app",
             "type": "String"
@@ -21,10 +17,34 @@
         "registries_lmsrepository_name": {
             "type": "String",
             "defaultValue": "lmsrepository"
+        },
+        "managedEnvironment_name": {
+            "type": "String",
+            "defaultValue": "lms-managed-environment"
         }
     },
     "variables": {},
     "resources": [
+        {
+            "type": "Microsoft.App/managedEnvironments",
+            "apiVersion": "2024-03-01",
+            "name": "[parameters('managedEnvironment_name')]",
+            "location": "West US 2",
+            "properties": {
+                "zoneRedundant": false,
+                "kedaConfiguration": {},
+                "daprConfiguration": {},
+                "appLogsConfiguration": {
+                    "destination": "none"
+                },
+                "workloadProfiles": [
+                    {
+                        "workloadProfileType": "Consumption",
+                        "name": "Consumption"
+                    }
+                ]
+            }
+        },
         {
             "type": "Microsoft.App/containerapps",
             "apiVersion": "2025-10-02-preview",
@@ -35,8 +55,8 @@
                 "type": "None"
             },
             "properties": {
-                "managedEnvironmentId": "[parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid')]",
-                "environmentId": "[parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid')]",
+                "managedEnvironmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]",
+                "environmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]",
                 "workloadProfileName": "Consumption",
                 "configuration": {
                     "secrets": [
@@ -92,7 +112,10 @@
                         "pollingInterval": 30
                     }
                 }
-            }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]"
+            ]
         },
         {
             "type": "Microsoft.App/containerapps",
@@ -104,8 +127,8 @@
                 "type": "None"
             },
             "properties": {
-                "managedEnvironmentId": "[parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid')]",
-                "environmentId": "[parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid')]",
+                "managedEnvironmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]",
+                "environmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]",
                 "workloadProfileName": "Consumption",
                 "configuration": {
                     "secrets": [
@@ -124,18 +147,6 @@
                             {
                                 "weight": 100,
                                 "latestRevision": true
-                            }
-                        ],
-                        "customDomains": [
-                            {
-                                "name": "burgeon.space",
-                                "certificateId": "[concat(parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid'), '/certificates/librogram')]",
-                                "bindingType": "SniEnabled"
-                            },
-                            {
-                                "name": "librogram.com",
-                                "certificateId": "[concat(parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid'), '/managedCertificates/librogram.com-managede-251218153437')]",
-                                "bindingType": "SniEnabled"
                             }
                         ],
                         "allowInsecure": false,
@@ -172,7 +183,10 @@
                         "pollingInterval": 30
                     }
                 }
-            }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]"
+            ]
         },
         {
             "type": "Microsoft.App/containerapps",
@@ -184,8 +198,8 @@
                 "type": "None"
             },
             "properties": {
-                "managedEnvironmentId": "[parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid')]",
-                "environmentId": "[parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid')]",
+                "managedEnvironmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]",
+                "environmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]",
                 "workloadProfileName": "Consumption",
                 "configuration": {
                     "secrets": [
@@ -204,23 +218,6 @@
                             {
                                 "weight": 100,
                                 "latestRevision": true
-                            }
-                        ],
-                        "customDomains": [
-                            {
-                                "name": "*.librogram.com",
-                                "certificateId": "[concat(parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid'), '/certificates/librogram')]",
-                                "bindingType": "SniEnabled"
-                            },
-                            {
-                                "name": "main.burgeon.space",
-                                "certificateId": "[concat(parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid'), '/managedCertificates/main.burgeon.space-managede-260225202018')]",
-                                "bindingType": "SniEnabled"
-                            },
-                            {
-                                "name": "main.librogram.com",
-                                "certificateId": "[concat(parameters('managedEnvironments_managedEnvironment_eventresource_9067_externalid'), '/managedCertificates/main.librogram.com-managede-251220114600')]",
-                                "bindingType": "SniEnabled"
                             }
                         ],
                         "allowInsecure": false,
@@ -258,7 +255,10 @@
                         "pollingInterval": 30
                     }
                 }
-            }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]"
+            ]
         }
     ]
 }

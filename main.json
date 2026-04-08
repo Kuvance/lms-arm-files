@@ -35,6 +35,10 @@
         },
         "administratorLoginPassword": {
             "type": "secureString"
+        },
+        "managedEnvironment_name": {
+            "type": "String",
+            "defaultValue": "lms-managed-environment"
         }
     },
     "variables": {},
@@ -108,6 +112,9 @@
                     },
                     "registries_lmsrepository_name": {
                         "value": "[parameters('registries_lmsrepository_name')]"
+                    },
+                    "managedEnvironment_name": {
+                        "value": "[parameters('managedEnvironment_name')]"
                     }
                 }
             }
