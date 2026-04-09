@@ -15,7 +15,7 @@
             "type": "String"
         },
         "flexibleServers_lms_name": {
-            "defaultValue": "lms",
+            "defaultValue": "lmsdbcore",
             "type": "String"
         },
         "registries_lmsrepository_name": {
@@ -23,7 +23,7 @@
             "type": "String"
         },
         "flexibleServers_learnmanagement_name": {
-            "defaultValue": "learnmanagement-burgeon-2026",
+            "defaultValue": "lmsdbade",
             "type": "String"
         },
         "_artifactsLocation": {
@@ -48,7 +48,7 @@
         },
         "serverNameSuffix": {
             "type": "String",
-            "defaultValue": "",
+            "defaultValue": "20260409",
             "metadata": {
                 "description": "Optional suffix to make server names globally unique."
             }

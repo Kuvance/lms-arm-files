@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "flexibleServers_lms_name": {
-            "defaultValue": "lms",
+            "defaultValue": "lmsdbcore",
             "type": "String"
         },
         "flexibleServers_learnmanagement_name": {
