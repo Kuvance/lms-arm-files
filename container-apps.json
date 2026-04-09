@@ -55,7 +55,7 @@
             "location": "West US 2",
             "kind": "containerapps",
             "identity": {
-                "type": "None"
+                "type": "SystemAssigned"
             },
             "properties": {
                 "managedEnvironmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]",
@@ -88,9 +88,8 @@
                     },
                     "registries": [
                         {
-                            "server": "lmsrepository.azurecr.io",
-                            "username": "lmsrepository",
-                            "passwordSecretRef": "reg-pswd-2d7c47f7-b465"
+                            "server": "[concat(parameters('registries_lmsrepository_name'), '.azurecr.io')]",
+                            "identity": "system"
                         }
                     ],
                     "identitySettings": [],
@@ -127,7 +126,7 @@
             "location": "West US 2",
             "kind": "containerapps",
             "identity": {
-                "type": "None"
+                "type": "SystemAssigned"
             },
             "properties": {
                 "managedEnvironmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]",
@@ -159,9 +158,8 @@
                     },
                     "registries": [
                         {
-                            "server": "lmsrepository.azurecr.io",
-                            "username": "lmsrepository",
-                            "passwordSecretRef": "reg-pswd-b91e8334-9227"
+                            "server": "[concat(parameters('registries_lmsrepository_name'), '.azurecr.io')]",
+                            "identity": "system"
                         }
                     ],
                     "identitySettings": [],
@@ -198,7 +196,7 @@
             "location": "West US 2",
             "kind": "containerapps",
             "identity": {
-                "type": "None"
+                "type": "SystemAssigned"
             },
             "properties": {
                 "managedEnvironmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]",
@@ -231,9 +229,8 @@
                     },
                     "registries": [
                         {
-                            "server": "lmsrepository.azurecr.io",
-                            "username": "lmsrepository",
-                            "passwordSecretRef": "reg-pswd-56841184-973e"
+                            "server": "[concat(parameters('registries_lmsrepository_name'), '.azurecr.io')]",
+                            "identity": "system"
                         }
                     ],
                     "identitySettings": [],
@@ -262,6 +259,48 @@
             "dependsOn": [
                 "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]"
             ]
+        },
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2022-04-01",
+            "name": "[guid(resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_app_name')), 'AcrPull')]",
+            "scope": "[concat('Microsoft.ContainerRegistry/registries/', parameters('registries_lmsrepository_name'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_app_name'))]"
+            ],
+            "properties": {
+                "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-a340-40a4-978b-daa610b8bb2b')]",
+                "principalId": "[reference(resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_app_name')), '2025-10-02-preview', 'full').identity.principalId]",
+                "principalType": "ServicePrincipal"
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2022-04-01",
+            "name": "[guid(resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_landing_app_name')), 'AcrPull')]",
+            "scope": "[concat('Microsoft.ContainerRegistry/registries/', parameters('registries_lmsrepository_name'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_landing_app_name'))]"
+            ],
+            "properties": {
+                "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-a340-40a4-978b-daa610b8bb2b')]",
+                "principalId": "[reference(resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_landing_app_name')), '2025-10-02-preview', 'full').identity.principalId]",
+                "principalType": "ServicePrincipal"
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2022-04-01",
+            "name": "[guid(resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_main_app_name')), 'AcrPull')]",
+            "scope": "[concat('Microsoft.ContainerRegistry/registries/', parameters('registries_lmsrepository_name'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_main_app_name'))]"
+            ],
+            "properties": {
+                "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-a340-40a4-978b-daa610b8bb2b')]",
+                "principalId": "[reference(resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_main_app_name')), '2025-10-02-preview', 'full').identity.principalId]",
+                "principalType": "ServicePrincipal"
+            }
         }
     ]
 }
