@@ -23,7 +23,7 @@
             "type": "String"
         },
         "flexibleServers_learnmanagement_name": {
-            "defaultValue": "learnmanagement",
+            "defaultValue": "learnmanagement123",
             "type": "String"
         },
         "_artifactsLocation": {
