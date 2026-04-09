@@ -7,7 +7,7 @@
             "type": "String"
         },
         "flexibleServers_learnmanagement_name": {
-            "defaultValue": "learnmanagement123",
+            "defaultValue": "learnmanagement-burgeon-2026",
             "type": "String"
         },
         "administratorLoginPassword": {
