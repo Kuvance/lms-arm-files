@@ -11,20 +11,13 @@
             "type": "String"
         },
         "administratorLoginPassword": {
-            "type": "secureString",
-            "metadata": {
-                "description": "PostgreSQL administrator password"
-            }
+            "type": "secureString"
         },
         "serverNameSuffix": {
             "type": "String",
-            "defaultValue": "20260409",
-            "metadata": {
-                "description": "Optional suffix for globally unique server names (e.g. '-v2')"
-            }
+            "defaultValue": "20260409"
         }
     },
-    "variables": {},
     "resources": [
         {
             "type": "Microsoft.DBforPostgreSQL/flexibleServers",
@@ -36,44 +29,19 @@
                 "tier": "Burstable"
             },
             "properties": {
-                "replica": {
-                    "role": "Primary"
-                },
+                "administratorLogin": "lmsadmin",
+                "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
+                "version": "17",
                 "storage": {
-                    "iops": 120,
-                    "tier": "P4",
-                    "storageSizeGB": 32,
-                    "autoGrow": "Disabled"
+                    "storageSizeGB": 32
                 },
                 "network": {
                     "publicNetworkAccess": "Enabled"
                 },
-                "dataEncryption": {
-                    "type": "SystemManaged"
-                },
                 "authConfig": {
-                    "activeDirectoryAuth": "Enabled",
-                    "passwordAuth": "Enabled",
-                    "tenantId": "720d5d4c-32ad-4240-bd83-80ecb91a170d"
-                },
-                "version": "17",
-                "administratorLogin": "lmsadmin",
-                "availabilityZone": "2",
-                "backup": {
-                    "backupRetentionDays": 7,
-                    "geoRedundantBackup": "Disabled"
-                },
-                "highAvailability": {
-                    "mode": "Disabled"
-                },
-                "maintenanceWindow": {
-                    "customWindow": "Disabled",
-                    "dayOfWeek": 0,
-                    "startHour": 0,
-                    "startMinute": 0
-                },
-                "replicationRole": "Primary",
-                "administratorLoginPassword": "[parameters('administratorLoginPassword')]"
+                    "activeDirectoryAuth": "Disabled",
+                    "passwordAuth": "Enabled"
+                }
             }
         },
         {
@@ -86,166 +54,19 @@
                 "tier": "Burstable"
             },
             "properties": {
-                "replica": {
-                    "role": "Primary"
-                },
+                "administratorLogin": "lmsadmin",
+                "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
+                "version": "17",
                 "storage": {
-                    "iops": 500,
-                    "tier": "P10",
-                    "storageSizeGB": 128,
-                    "autoGrow": "Disabled"
+                    "storageSizeGB": 128
                 },
                 "network": {
                     "publicNetworkAccess": "Enabled"
                 },
-                "dataEncryption": {
-                    "type": "SystemManaged"
-                },
                 "authConfig": {
-                    "activeDirectoryAuth": "Enabled",
-                    "passwordAuth": "Enabled",
-                    "tenantId": "720d5d4c-32ad-4240-bd83-80ecb91a170d"
-                },
-                "version": "17",
-                "administratorLogin": "lmsadmin",
-                "availabilityZone": "2",
-                "backup": {
-                    "backupRetentionDays": 7,
-                    "geoRedundantBackup": "Disabled"
-                },
-                "highAvailability": {
-                    "mode": "Disabled"
-                },
-                "maintenanceWindow": {
-                    "customWindow": "Disabled",
-                    "dayOfWeek": 0,
-                    "startHour": 0,
-                    "startMinute": 0
-                },
-                "replicationRole": "Primary",
-                "administratorLoginPassword": "[parameters('administratorLoginPassword')]"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/administrators",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix'), '/163f225a-d303-424b-8591-94a7bf7276e9')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "principalType": "User",
-                "principalName": "anthonyaniobi198@gmail.com",
-                "tenantId": "720d5d4c-32ad-4240-bd83-80ecb91a170d"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/administrators",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/163f225a-d303-424b-8591-94a7bf7276e9')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "principalType": "User",
-                "principalName": "anthonyaniobi198@gmail.com",
-                "tenantId": "720d5d4c-32ad-4240-bd83-80ecb91a170d"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/advancedThreatProtectionSettings",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix'), '/Default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "state": "Disabled"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/advancedThreatProtectionSettings",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/Default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "state": "Disabled"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix'), '/shared_preload_libraries')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "pg_cron,pg_stat_statements",
-                "source": "user-override"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/shared_preload_libraries')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "value": "pg_cron,pg_stat_statements",
-                "source": "user-override"
-            }
-        },
-
-     
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix'), '/AllowAll_2025-12-12_9-54-28')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "startIpAddress": "0.0.0.0",
-                "endIpAddress": "255.255.255.255"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/AllowAll_2025-12-19_19-42-6')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "startIpAddress": "0.0.0.0",
-                "endIpAddress": "255.255.255.255"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix'), '/AllowAllAzureServicesAndResourcesWithinAzureIps_2025-12-12_9-56-32')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "startIpAddress": "0.0.0.0",
-                "endIpAddress": "0.0.0.0"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/AllowAllAzureServicesAndResourcesWithinAzureIps_2025-12-19_19-42-24')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "startIpAddress": "0.0.0.0",
-                "endIpAddress": "0.0.0.0"
+                    "activeDirectoryAuth": "Disabled",
+                    "passwordAuth": "Enabled"
+                }
             }
         }
     ]

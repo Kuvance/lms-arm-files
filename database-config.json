@@ -1,0 +1,76 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "flexibleServers_lms_name": {
+            "defaultValue": "lmsdbcore",
+            "type": "String"
+        },
+        "flexibleServers_learnmanagement_name": {
+            "defaultValue": "lmsdbade",
+            "type": "String"
+        },
+        "serverNameSuffix": {
+            "type": "String",
+            "defaultValue": "20260409"
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.DBforPostgreSQL/flexibleServers/administrators",
+            "apiVersion": "2025-08-01",
+            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix'), '/163f225a-d303-424b-8591-94a7bf7276e9')]",
+            "properties": {
+                "principalType": "User",
+                "principalName": "anthonyaniobi198@gmail.com",
+                "tenantId": "720d5d4c-32ad-4240-bd83-80ecb91a170d"
+            }
+        },
+        {
+            "type": "Microsoft.DBforPostgreSQL/flexibleServers/administrators",
+            "apiVersion": "2025-08-01",
+            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/163f225a-d303-424b-8591-94a7bf7276e9')]",
+            "properties": {
+                "principalType": "User",
+                "principalName": "anthonyaniobi198@gmail.com",
+                "tenantId": "720d5d4c-32ad-4240-bd83-80ecb91a170d"
+            }
+        },
+        {
+            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
+            "apiVersion": "2025-08-01",
+            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix'), '/shared_preload_libraries')]",
+            "properties": {
+                "value": "pg_cron,pg_stat_statements",
+                "source": "user-override"
+            }
+        },
+        {
+            "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
+            "apiVersion": "2025-08-01",
+            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/shared_preload_libraries')]",
+            "properties": {
+                "value": "pg_cron,pg_stat_statements",
+                "source": "user-override"
+            }
+        },
+        {
+            "type": "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules",
+            "apiVersion": "2025-08-01",
+            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix'), '/AllowAll')]",
+            "properties": {
+                "startIpAddress": "0.0.0.0",
+                "endIpAddress": "255.255.255.255"
+            }
+        },
+        {
+            "type": "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules",
+            "apiVersion": "2025-08-01",
+            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/AllowAll')]",
+            "properties": {
+                "startIpAddress": "0.0.0.0",
+                "endIpAddress": "255.255.255.255"
+            }
+        }
+    ]
+}
