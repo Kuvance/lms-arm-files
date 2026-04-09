@@ -25,7 +25,7 @@
         "containerRegistryPassword": {
             "type": "secureString",
             "metadata": {
-                "description": "Password for the Azure Container Registry (lmsrepository). Get it from Azure Portal > Container Registry > Access keys."
+                "description": "Legacy parameter. Now automated via listCredentials."
             }
         }
     },
@@ -55,7 +55,7 @@
             "location": "West US 2",
             "kind": "containerapps",
             "identity": {
-                "type": "SystemAssigned"
+                "type": "None"
             },
             "properties": {
                 "managedEnvironmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]",
@@ -64,8 +64,8 @@
                 "configuration": {
                     "secrets": [
                         {
-                            "name": "reg-pswd-2d7c47f7-b465",
-                            "value": "[parameters('containerRegistryPassword')]"
+                            "name": "reg-pswd-acr",
+                            "value": "[listCredentials(resourceId('Microsoft.ContainerRegistry/registries', parameters('registries_lmsrepository_name')), '2023-07-01').passwords[0].value]"
                         }
                     ],
                     "activeRevisionsMode": "Single",
@@ -89,7 +89,8 @@
                     "registries": [
                         {
                             "server": "[concat(parameters('registries_lmsrepository_name'), '.azurecr.io')]",
-                            "identity": "system"
+                            "username": "[parameters('registries_lmsrepository_name')]",
+                            "passwordSecretRef": "reg-pswd-acr"
                         }
                     ],
                     "identitySettings": [],
@@ -98,7 +99,7 @@
                 "template": {
                     "containers": [
                         {
-                            "image": "lmsrepository.azurecr.io/coursebackend:latest",
+                            "image": "[concat(parameters('registries_lmsrepository_name'), '.azurecr.io/coursebackend:latest')]",
                             "imageType": "ContainerImage",
                             "name": "[parameters('containerapps_lms_app_name')]",
                             "resources": {
@@ -126,7 +127,7 @@
             "location": "West US 2",
             "kind": "containerapps",
             "identity": {
-                "type": "SystemAssigned"
+                "type": "None"
             },
             "properties": {
                 "managedEnvironmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]",
@@ -135,8 +136,8 @@
                 "configuration": {
                     "secrets": [
                         {
-                            "name": "reg-pswd-b91e8334-9227",
-                            "value": "[parameters('containerRegistryPassword')]"
+                            "name": "reg-pswd-acr",
+                            "value": "[listCredentials(resourceId('Microsoft.ContainerRegistry/registries', parameters('registries_lmsrepository_name')), '2023-07-01').passwords[0].value]"
                         }
                     ],
                     "activeRevisionsMode": "Single",
@@ -159,7 +160,8 @@
                     "registries": [
                         {
                             "server": "[concat(parameters('registries_lmsrepository_name'), '.azurecr.io')]",
-                            "identity": "system"
+                            "username": "[parameters('registries_lmsrepository_name')]",
+                            "passwordSecretRef": "reg-pswd-acr"
                         }
                     ],
                     "identitySettings": [],
@@ -168,7 +170,7 @@
                 "template": {
                     "containers": [
                         {
-                            "image": "lmsrepository.azurecr.io/lms-landing-page:latest",
+                            "image": "[concat(parameters('registries_lmsrepository_name'), '.azurecr.io/lms-landing-page:latest')]",
                             "imageType": "ContainerImage",
                             "name": "[parameters('containerapps_lms_landing_app_name')]",
                             "resources": {
@@ -196,7 +198,7 @@
             "location": "West US 2",
             "kind": "containerapps",
             "identity": {
-                "type": "SystemAssigned"
+                "type": "None"
             },
             "properties": {
                 "managedEnvironmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]",
@@ -205,8 +207,8 @@
                 "configuration": {
                     "secrets": [
                         {
-                            "name": "reg-pswd-56841184-973e",
-                            "value": "[parameters('containerRegistryPassword')]"
+                            "name": "reg-pswd-acr",
+                            "value": "[listCredentials(resourceId('Microsoft.ContainerRegistry/registries', parameters('registries_lmsrepository_name')), '2023-07-01').passwords[0].value]"
                         }
                     ],
                     "activeRevisionsMode": "Single",
@@ -230,7 +232,8 @@
                     "registries": [
                         {
                             "server": "[concat(parameters('registries_lmsrepository_name'), '.azurecr.io')]",
-                            "identity": "system"
+                            "username": "[parameters('registries_lmsrepository_name')]",
+                            "passwordSecretRef": "reg-pswd-acr"
                         }
                     ],
                     "identitySettings": [],
@@ -239,7 +242,7 @@
                 "template": {
                     "containers": [
                         {
-                            "image": "lmsrepository.azurecr.io/lms-main-page:latest",
+                            "image": "[concat(parameters('registries_lmsrepository_name'), '.azurecr.io/lms-main-page:latest')]",
                             "imageType": "ContainerImage",
                             "name": "[parameters('containerapps_lms_main_app_name')]",
                             "resources": {
@@ -259,48 +262,6 @@
             "dependsOn": [
                 "[resourceId('Microsoft.App/managedEnvironments', parameters('managedEnvironment_name'))]"
             ]
-        },
-        {
-            "type": "Microsoft.Authorization/roleAssignments",
-            "apiVersion": "2022-04-01",
-            "name": "[guid(resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_app_name')), 'AcrPull')]",
-            "scope": "[concat('Microsoft.ContainerRegistry/registries/', parameters('registries_lmsrepository_name'))]",
-            "dependsOn": [
-                "[resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_app_name'))]"
-            ],
-            "properties": {
-                "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-a340-40a4-978b-daa610b8bb2b')]",
-                "principalId": "[reference(resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_app_name')), '2025-10-02-preview', 'full').identity.principalId]",
-                "principalType": "ServicePrincipal"
-            }
-        },
-        {
-            "type": "Microsoft.Authorization/roleAssignments",
-            "apiVersion": "2022-04-01",
-            "name": "[guid(resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_landing_app_name')), 'AcrPull')]",
-            "scope": "[concat('Microsoft.ContainerRegistry/registries/', parameters('registries_lmsrepository_name'))]",
-            "dependsOn": [
-                "[resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_landing_app_name'))]"
-            ],
-            "properties": {
-                "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-a340-40a4-978b-daa610b8bb2b')]",
-                "principalId": "[reference(resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_landing_app_name')), '2025-10-02-preview', 'full').identity.principalId]",
-                "principalType": "ServicePrincipal"
-            }
-        },
-        {
-            "type": "Microsoft.Authorization/roleAssignments",
-            "apiVersion": "2022-04-01",
-            "name": "[guid(resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_main_app_name')), 'AcrPull')]",
-            "scope": "[concat('Microsoft.ContainerRegistry/registries/', parameters('registries_lmsrepository_name'))]",
-            "dependsOn": [
-                "[resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_main_app_name'))]"
-            ],
-            "properties": {
-                "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-a340-40a4-978b-daa610b8bb2b')]",
-                "principalId": "[reference(resourceId('Microsoft.App/containerapps', parameters('containerapps_lms_main_app_name')), '2025-10-02-preview', 'full').identity.principalId]",
-                "principalType": "ServicePrincipal"
-            }
         }
     ]
 }
