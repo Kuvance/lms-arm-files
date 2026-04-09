@@ -116,9 +116,35 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2021-04-01",
-            "name": "containerAppsDeployment",
+            "name": "databaseConfigDeployment",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', 'databaseDeployment')]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('_artifactsLocation'), 'database-config.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "flexibleServers_lms_name": {
+                        "value": "[parameters('flexibleServers_lms_name')]"
+                    },
+                    "flexibleServers_learnmanagement_name": {
+                        "value": "[parameters('flexibleServers_learnmanagement_name')]"
+                    },
+                    "serverNameSuffix": {
+                        "value": "[parameters('serverNameSuffix')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2021-04-01",
+            "name": "containerAppsDeployment",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'databaseConfigDeployment')]"
             ],
             "properties": {
                 "mode": "Incremental",
