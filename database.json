@@ -15,7 +15,7 @@
         },
         "serverNameSuffix": {
             "type": "String",
-            "defaultValue": "20260409"
+            "defaultValue": "20260409v2"
         }
     },
     "resources": [
