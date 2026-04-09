@@ -52,6 +52,13 @@
             "metadata": {
                 "description": "Optional suffix to make server names globally unique."
             }
+        },
+        "storageAccountName": {
+            "type": "String",
+            "defaultValue": "[concat('lmsassets', parameters('serverNameSuffix'))]",
+            "metadata": {
+                "description": "Unique name for the static/media storage account."
+            }
         }
     },
     "variables": {},
@@ -70,6 +77,9 @@
                 "parameters": {
                     "registries_lmsrepository_name": {
                         "value": "[parameters('registries_lmsrepository_name')]"
+                    },
+                    "storageAccountName": {
+                        "value": "[parameters('storageAccountName')]"
                     }
                 }
             }
