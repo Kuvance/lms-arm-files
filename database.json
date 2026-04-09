@@ -198,42 +198,8 @@
                 "source": "user-override"
             }
         },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix'), '/postgres')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_learnmanagement_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "charset": "UTF8",
-                "collation": "en_US.utf8"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/postgres')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "charset": "UTF8",
-                "collation": "en_US.utf8"
-            }
-        },
-        {
-            "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases",
-            "apiVersion": "2025-08-01",
-            "name": "[concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix'), '/test_postgres')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', concat(parameters('flexibleServers_lms_name'), parameters('serverNameSuffix')))]"
-            ],
-            "properties": {
-                "charset": "UTF8",
-                "collation": "en_US.utf8"
-            }
-        },
+
+     
         {
             "type": "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules",
             "apiVersion": "2025-08-01",
