@@ -7,7 +7,7 @@
             "type": "String"
         },
         "flexibleServers_learnmanagement_name": {
-            "defaultValue": "learnmanagement-burgeon-2026",
+            "defaultValue": "lmsdbade",
             "type": "String"
         },
         "administratorLoginPassword": {
@@ -18,7 +18,7 @@
         },
         "serverNameSuffix": {
             "type": "String",
-            "defaultValue": "",
+            "defaultValue": "20260409",
             "metadata": {
                 "description": "Optional suffix for globally unique server names (e.g. '-v2')"
             }
@@ -57,7 +57,7 @@
                     "tenantId": "720d5d4c-32ad-4240-bd83-80ecb91a170d"
                 },
                 "version": "17",
-                "administratorLogin": "[concat(parameters('flexibleServers_learnmanagement_name'), 'system')]",
+                "administratorLogin": "lmsadmin",
                 "availabilityZone": "2",
                 "backup": {
                     "backupRetentionDays": 7,
@@ -107,7 +107,7 @@
                     "tenantId": "720d5d4c-32ad-4240-bd83-80ecb91a170d"
                 },
                 "version": "17",
-                "administratorLogin": "[concat(parameters('flexibleServers_lms_name'), 'database')]",
+                "administratorLogin": "lmsadmin",
                 "availabilityZone": "2",
                 "backup": {
                     "backupRetentionDays": 7,
